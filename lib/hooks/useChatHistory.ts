@@ -191,8 +191,8 @@ export function useChatHistory() {
       if (localMessages.length === 0) return;
 
       // Create a new conversation
-      const { data: conversation, error: convError } = await supabase
-        .from('conversations')
+      const { data: conversation, error: convError } = await (supabase
+        .from('conversations') as any)
         .insert({
           user_id: uid,
           title: 'Migrated Conversation'
@@ -203,11 +203,11 @@ export function useChatHistory() {
       if (convError) throw convError;
 
       // Insert all messages
-      const { error: msgError } = await supabase
-        .from('messages')
+      const { error: msgError } = await (supabase
+        .from('messages') as any)
         .insert(
           localMessages.map(msg => ({
-            conversation_id: conversation.id,
+            conversation_id: (conversation as any).id,
             role: msg.role,
             content: msg.content,
             timestamp: msg.timestamp
@@ -237,8 +237,8 @@ export function useChatHistory() {
     }
 
     try {
-      const { data, error } = await supabase
-        .from('conversations')
+      const { data, error } = await (supabase
+        .from('conversations') as any)
         .insert({
           user_id: userId,
           title: title || 'New Conversation'
@@ -248,8 +248,8 @@ export function useChatHistory() {
 
       if (error) throw error;
 
-      setCurrentConversationId(data.id);
-      return data.id;
+      setCurrentConversationId((data as any).id);
+      return (data as any).id;
     } catch (err) {
       console.error('Failed to create conversation:', err);
       return null;
@@ -275,8 +275,8 @@ export function useChatHistory() {
     }
 
     try {
-      const { data, error } = await supabase
-        .from('messages')
+      const { data, error } = await (supabase
+        .from('messages') as any)
         .insert({
           conversation_id: currentConversationId,
           role,
@@ -289,7 +289,7 @@ export function useChatHistory() {
       if (error) throw error;
 
       // Update local state immediately
-      setMessages(prev => [...prev, { ...newMessage, id: data.id }]);
+      setMessages(prev => [...prev, { ...newMessage, id: (data as any).id }]);
     } catch (err) {
       console.error('Failed to add message:', err);
       // Fallback to local state

@@ -120,8 +120,8 @@ export function useSurveyState() {
    */
   const loadSurveyData = async (uid: string) => {
     try {
-      const { data, error } = await supabase
-        .from('preferences')
+      const { data, error } = await (supabase
+        .from('preferences') as any)
         .select('survey_data, survey_completed')
         .eq('user_id', uid)
         .single();
@@ -133,8 +133,8 @@ export function useSurveyState() {
       if (data) {
         setState(prev => ({
           ...prev,
-          data: data.survey_data || prev.data,
-          isComplete: data.survey_completed || false
+          data: (data as any).survey_data || prev.data,
+          isComplete: (data as any).survey_completed || false
         }));
       } else {
         // No preferences record yet - migrate from localStorage if available
@@ -187,7 +187,7 @@ export function useSurveyState() {
           survey_data: surveyData,
           survey_completed: savedComplete === 'true',
           updated_at: new Date().toISOString()
-        }, { onConflict: 'user_id' });
+        } as any, { onConflict: 'user_id' });
 
       if (!error) {
         // Clear localStorage after successful migration
@@ -225,7 +225,7 @@ export function useSurveyState() {
           user_id: userId,
           survey_data: updatedData,
           updated_at: new Date().toISOString()
-        }, { onConflict: 'user_id' });
+        } as any, { onConflict: 'user_id' });
 
       if (error) throw error;
 
@@ -279,7 +279,7 @@ export function useSurveyState() {
           survey_data: state.data,
           survey_completed: true,
           updated_at: new Date().toISOString()
-        }, { onConflict: 'user_id' });
+        } as any, { onConflict: 'user_id' });
 
       if (error) throw error;
 

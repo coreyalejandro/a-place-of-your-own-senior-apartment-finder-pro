@@ -139,8 +139,8 @@ export function useBookmarks() {
       }
 
       // Migrate to Supabase
-      const { error } = await supabase
-        .from('bookmarks')
+      const { error } = await (supabase
+        .from('bookmarks') as any)
         .upsert(
           localBookmarks.map((b) => ({
             user_id: user.id,
@@ -212,8 +212,8 @@ export function useBookmarks() {
         return;
       }
 
-      const { data, error } = await supabase
-        .from('bookmarks')
+      const { data, error } = await (supabase
+        .from('bookmarks') as any)
         .insert({
           user_id: userId,
           place_id: listing.placeId,
@@ -284,8 +284,8 @@ export function useBookmarks() {
         return;
       }
 
-      const { error } = await supabase
-        .from('bookmarks')
+      const { error } = await (supabase
+        .from('bookmarks') as any)
         .update({ user_notes: notes, updated_at: new Date().toISOString() })
         .eq('id', id)
         .eq('user_id', userId);
@@ -317,8 +317,8 @@ export function useBookmarks() {
         return;
       }
 
-      const { error } = await supabase
-        .from('bookmarks')
+      const { error } = await (supabase
+        .from('bookmarks') as any)
         .update({ status, updated_at: new Date().toISOString() })
         .eq('id', id)
         .eq('user_id', userId);
@@ -345,8 +345,8 @@ export function useBookmarks() {
         return;
       }
 
-      const { error } = await supabase
-        .from('bookmarks')
+      const { error } = await (supabase
+        .from('bookmarks') as any)
         .update({
           shared_with: familyMemberIds,
           updated_at: new Date().toISOString()
