@@ -1,0 +1,316 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { createBrowserClient } from '@/lib/supabase/client';
+import type { RealtimeChannel } from '@supabase/supabase-js';
+
+export interface SurveyData {
+  role: string;
+  searchCity: string;
+  searchState: string;
+  searchRadius: number;
+  budgetMin: number;
+  budgetMax: number;
+  bedrooms: number;
+  housingTypes: string[];
+  amenities: string[];
+  socialPreference: string;
+  petType: string;
+}
+
+export interface SurveyState {
+  currentScreen: number;
+  data: Partial<SurveyData>;
+  isComplete: boolean;
+  isSaving: boolean;
+}
+
+export function useSurveyState() {
+  const [state, setState] = useState<SurveyState>({
+    currentScreen: 1,
+    data: {
+      role: '',
+      searchCity: '',
+      searchState: 'OH',
+      searchRadius: 10,
+      budgetMin: 800,
+      budgetMax: 2000,
+      bedrooms: 1,
+      housingTypes: [],
+      amenities: [],
+      socialPreference: '',
+      petType: ''
+    },
+    isComplete: false,
+    isSaving: false
+  });
+  const [userId, setUserId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const supabase = createBrowserClient();
+
+  // Initialize and set up realtime subscriptions
+  useEffect(() => {
+    let channel: RealtimeChannel | null = null;
+
+    const initializeSurvey = async () => {
+      try {
+        // Get current user
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (!user) {
+          // User not logged in - load from localStorage if available
+          await loadFromLocalStorage();
+          setLoading(false);
+          return;
+        }
+
+        setUserId(user.id);
+
+        // Load survey data from Supabase
+        await loadSurveyData(user.id);
+
+        // Set up realtime subscription for cross-device sync
+        channel = supabase
+          .channel('survey-changes')
+          .on(
+            'postgres_changes',
+            {
+              event: 'UPDATE',
+              schema: 'public',
+              table: 'preferences',
+              filter: `user_id=eq.${user.id}`
+            },
+            (payload) => {
+              console.log('Survey data change detected:', payload);
+
+              const newPrefs = payload.new;
+              if (newPrefs.survey_data) {
+                setState(prev => ({
+                  ...prev,
+                  data: newPrefs.survey_data,
+                  isComplete: newPrefs.survey_completed || false
+                }));
+              }
+            }
+          )
+          .subscribe();
+
+      } catch (err) {
+        console.error('Failed to initialize survey:', err);
+        // Fallback to localStorage
+        await loadFromLocalStorage();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeSurvey();
+
+    // Cleanup subscription on unmount
+    return () => {
+      if (channel) {
+        supabase.removeChannel(channel);
+      }
+    };
+  }, []);
+
+  /**
+   * Load survey data from Supabase
+   */
+  const loadSurveyData = async (uid: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('preferences')
+        .select('survey_data, survey_completed')
+        .eq('user_id', uid)
+        .single();
+
+      if (error && error.code !== 'PGRST116') { // PGRST116 = no rows returned
+        throw error;
+      }
+
+      if (data) {
+        setState(prev => ({
+          ...prev,
+          data: data.survey_data || prev.data,
+          isComplete: data.survey_completed || false
+        }));
+      } else {
+        // No preferences record yet - migrate from localStorage if available
+        await migrateFromLocalStorage(uid);
+      }
+    } catch (err) {
+      console.error('Failed to load survey data from Supabase:', err);
+      throw err;
+    }
+  };
+
+  /**
+   * Load from localStorage (fallback for unauthenticated users)
+   */
+  const loadFromLocalStorage = async () => {
+    try {
+      const savedProgress = localStorage.getItem('survey_progress');
+      const savedComplete = localStorage.getItem('survey_complete');
+
+      if (savedProgress) {
+        const data = JSON.parse(savedProgress);
+        setState(prev => ({
+          ...prev,
+          data,
+          isComplete: savedComplete === 'true'
+        }));
+      }
+    } catch (error) {
+      console.error('Failed to load from localStorage:', error);
+    }
+  };
+
+  /**
+   * Migrate existing localStorage survey data to Supabase (one-time migration)
+   */
+  const migrateFromLocalStorage = async (uid: string) => {
+    try {
+      const savedProgress = localStorage.getItem('survey_progress');
+      const savedComplete = localStorage.getItem('survey_complete');
+
+      if (!savedProgress) return;
+
+      const surveyData: Partial<SurveyData> = JSON.parse(savedProgress);
+
+      // Migrate to Supabase
+      const { error } = await supabase
+        .from('preferences')
+        .upsert({
+          user_id: uid,
+          survey_data: surveyData,
+          survey_completed: savedComplete === 'true',
+          updated_at: new Date().toISOString()
+        }, { onConflict: 'user_id' });
+
+      if (!error) {
+        // Clear localStorage after successful migration
+        localStorage.removeItem('survey_progress');
+        localStorage.removeItem('survey_complete');
+        console.log('Successfully migrated survey data to Supabase');
+      }
+    } catch (err) {
+      console.error('Migration from localStorage failed:', err);
+      // Keep using localStorage as fallback
+    }
+  };
+
+  const saveProgress = async (screenData: Partial<SurveyData>) => {
+    setState(prev => ({ ...prev, isSaving: true }));
+
+    try {
+      const updatedData = { ...state.data, ...screenData };
+
+      if (!userId) {
+        // Fallback to localStorage for unauthenticated users
+        localStorage.setItem('survey_progress', JSON.stringify(updatedData));
+        setState(prev => ({
+          ...prev,
+          data: updatedData,
+          isSaving: false
+        }));
+        return;
+      }
+
+      // Save to Supabase
+      const { error } = await supabase
+        .from('preferences')
+        .upsert({
+          user_id: userId,
+          survey_data: updatedData,
+          updated_at: new Date().toISOString()
+        }, { onConflict: 'user_id' });
+
+      if (error) throw error;
+
+      // Update local state immediately
+      setState(prev => ({
+        ...prev,
+        data: updatedData,
+        isSaving: false
+      }));
+    } catch (error) {
+      console.error('Failed to save survey progress:', error);
+      setState(prev => ({ ...prev, isSaving: false }));
+      throw new Error('Unable to save your progress. Please try again.');
+    }
+  };
+
+  const goToNextScreen = () => {
+    setState(prev => ({
+      ...prev,
+      currentScreen: Math.min(prev.currentScreen + 1, 7)
+    }));
+  };
+
+  const goToPreviousScreen = () => {
+    setState(prev => ({
+      ...prev,
+      currentScreen: Math.max(prev.currentScreen - 1, 1)
+    }));
+  };
+
+  const completeSurvey = async () => {
+    setState(prev => ({ ...prev, isSaving: true }));
+
+    try {
+      if (!userId) {
+        // Fallback to localStorage for unauthenticated users
+        localStorage.setItem('survey_complete', 'true');
+        setState(prev => ({
+          ...prev,
+          isComplete: true,
+          isSaving: false
+        }));
+        return;
+      }
+
+      // Save to Supabase
+      const { error } = await supabase
+        .from('preferences')
+        .upsert({
+          user_id: userId,
+          survey_data: state.data,
+          survey_completed: true,
+          updated_at: new Date().toISOString()
+        }, { onConflict: 'user_id' });
+
+      if (error) throw error;
+
+      // Update local state immediately
+      setState(prev => ({
+        ...prev,
+        isComplete: true,
+        isSaving: false
+      }));
+    } catch (error) {
+      console.error('Failed to complete survey:', error);
+      setState(prev => ({ ...prev, isSaving: false }));
+      throw new Error('Unable to complete survey. Please try again.');
+    }
+  };
+
+  const updateData = (newData: Partial<SurveyData>) => {
+    setState(prev => ({
+      ...prev,
+      data: { ...prev.data, ...newData }
+    }));
+  };
+
+  return {
+    state,
+    saveProgress,
+    goToNextScreen,
+    goToPreviousScreen,
+    completeSurvey,
+    updateData,
+    loading,
+    userId
+  };
+}

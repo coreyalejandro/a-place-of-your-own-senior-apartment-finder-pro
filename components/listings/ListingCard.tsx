@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 interface Listing {
   id: string;
   name: string;
@@ -34,10 +36,12 @@ export function ListingCard({
     >
       {listing.photoUrl && (
         <div className="relative aspect-video mb-4 rounded-md overflow-hidden">
-          <img
+          <Image
             src={listing.photoUrl}
             alt={`${listing.name} exterior`}
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           {onBookmarkToggle && (
             <button
