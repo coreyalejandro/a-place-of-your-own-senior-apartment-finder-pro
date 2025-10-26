@@ -42,54 +42,48 @@ export interface PipelineConfig {
 
 /**
  * AGENT 1: Sourcing Agent
- * Fetches images from Unsplash API based on theme
+ * Fetches images from Pexels API based on theme
  */
 export async function sourcingAgent(
   theme: string,
   count: number = 5,
-  unsplashAccessKey?: string
+  pexelsApiKey?: string
 ): Promise<SourcedImage[]> {
   console.log(`🔍 Sourcing Agent: Fetching ${count} images for theme '${theme}'...`);
 
-  if (!unsplashAccessKey) {
-    console.warn('No Unsplash API key provided. Returning placeholder results.');
-    // Return placeholder results for testing
-    return Array.from({ length: count }).map((_, i) => ({
-      url: `https://source.unsplash.com/800x600/?${theme.replace(/\s+/g, ',')},senior,${i}`,
-      prompt: `Sourced for theme: ${theme}`,
-      author: 'Unsplash Photographer',
-      sourceUrl: 'https://unsplash.com'
-    }));
+  if (!pexelsApiKey) {
+    console.warn('No Pexels API key provided. Skipping image sourcing.');
+    return [];
   }
 
   try {
     // Build search query from theme
     const searchQuery = `${theme} senior elderly`;
 
-    // Fetch from Unsplash API
+    // Fetch from Pexels API
     const response = await fetch(
-      `https://api.unsplash.com/search/photos?query=${encodeURIComponent(searchQuery)}&per_page=${count}&orientation=landscape`,
+      `https://api.pexels.com/v1/search?query=${encodeURIComponent(searchQuery)}&per_page=${count}&orientation=landscape`,
       {
         headers: {
-          'Authorization': `Client-ID ${unsplashAccessKey}`
+          'Authorization': pexelsApiKey
         }
       }
     );
 
     if (!response.ok) {
-      throw new Error(`Unsplash API error: ${response.statusText}`);
+      throw new Error(`Pexels API error: ${response.statusText}`);
     }
 
     const data = await response.json();
 
-    return data.results.map((photo: any) => ({
-      url: photo.urls.regular,
-      prompt: `Sourced from Unsplash: ${photo.description || photo.alt_description || theme}`,
-      author: photo.user.name,
-      sourceUrl: photo.links.html
+    return data.photos.map((photo: any) => ({
+      url: photo.src.large,
+      prompt: `Sourced from Pexels: ${photo.alt || theme}`,
+      author: photo.photographer,
+      sourceUrl: photo.url
     }));
   } catch (error) {
-    console.error('Error fetching from Unsplash:', error);
+    console.error('Error fetching from Pexels:', error);
     return [];
   }
 }
@@ -259,7 +253,7 @@ export async function runMonthlyArtPipeline(config: {
   geminiApiKey: string;
   supabaseUrl: string;
   supabaseServiceKey: string;
-  unsplashAccessKey?: string;
+  pexelsApiKey?: string;
   theme: string;
   issueDate: string;
   sourcedCount?: number;
@@ -276,7 +270,7 @@ export async function runMonthlyArtPipeline(config: {
   try {
     // Run sourcing and generation agents in parallel
     const [sourcedImages, generatedImages] = await Promise.all([
-      sourcingAgent(config.theme, sourcedCount, config.unsplashAccessKey),
+      sourcingAgent(config.theme, sourcedCount, config.pexelsApiKey),
       generationAgent(config.geminiApiKey, config.theme, generatedCount),
     ]);
 

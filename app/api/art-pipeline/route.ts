@@ -61,15 +61,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Optional: Unsplash API key
-    const unsplashAccessKey = process.env.UNSPLASH_ACCESS_KEY;
+    // Optional: Pexels API key
+    const pexelsApiKey = process.env.PEXELS_API_KEY;
 
     // Run the pipeline
     const result = await runMonthlyArtPipeline({
       geminiApiKey,
       supabaseUrl,
       supabaseServiceKey,
-      unsplashAccessKey,
+      pexelsApiKey,
       theme,
       issueDate,
       sourcedCount,
@@ -128,7 +128,7 @@ export async function GET() {
       supabaseConfigured: !!(
         process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY
       ),
-      unsplashConfigured: !!process.env.UNSPLASH_ACCESS_KEY,
+      pexelsConfigured: !!process.env.PEXELS_API_KEY,
     },
   });
 }

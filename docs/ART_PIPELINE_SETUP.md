@@ -3,7 +3,7 @@
 ## Overview
 
 The Art Pipeline System is an automated, agentic architecture for generating monthly magazine artwork for "A Place of Your Own." It combines:
-- **Sourcing Agent**: Fetches curated images from Unsplash
+- **Sourcing Agent**: Fetches curated images from Pexels
 - **Generation Agent**: Creates unique artwork using Google's Gemini AI
 - **Storage Agent**: Manages uploads to Supabase Storage and metadata
 
@@ -21,7 +21,7 @@ This system helps build a proprietary library of high-quality, unique artwork ov
 │  ┌──────────────┐      ┌──────────────┐      ┌──────────┐  │
 │  │   Sourcing   │      │  Generation  │      │ Storage  │  │
 │  │    Agent     │─────▶│    Agent     │─────▶│  Agent   │  │
-│  │  (Unsplash)  │      │   (Gemini)   │      │(Supabase)│  │
+│  │  (Pexels)  │      │   (Gemini)   │      │(Supabase)│  │
 │  └──────────────┘      └──────────────┘      └──────────┘  │
 │         │                      │                     │       │
 │         │                      │                     │       │
@@ -47,8 +47,8 @@ GEMINI_API_KEY=your_gemini_api_key_here
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 
-# Optional: Unsplash (for sourcing images)
-UNSPLASH_ACCESS_KEY=your_unsplash_access_key
+# Optional: Pexels (for sourcing images)
+PEXELS_API_KEY=your_unsplash_access_key
 ```
 
 #### Getting API Keys:
@@ -59,11 +59,12 @@ UNSPLASH_ACCESS_KEY=your_unsplash_access_key
 3. Click "Get API Key" or "Create API Key"
 4. Copy the key and add to `.env.local`
 
-**Unsplash Access Key (Optional):**
-1. Go to [Unsplash Developers](https://unsplash.com/developers)
-2. Register your application
-3. Copy the "Access Key" from your app dashboard
-4. Add to `.env.local`
+**Pexels API Key (Optional):**
+1. Go to [Pexels API](https://www.pexels.com/api/)
+2. Click "Get Started" and create a free account
+3. Your API key is generated **instantly** (no waiting!)
+4. Copy the API key from your dashboard
+5. Add to `.env.local`
 
 ### 2. Database Setup
 
@@ -157,7 +158,7 @@ const result = await runMonthlyArtPipeline({
   geminiApiKey: process.env.GEMINI_API_KEY!,
   supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL!,
   supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  unsplashAccessKey: process.env.UNSPLASH_ACCESS_KEY,
+  pexelsApiKey: process.env.PEXELS_API_KEY,
   theme: 'Second Chapters',
   issueDate: '2026-01-01',
   sourcedCount: 5,
@@ -196,7 +197,7 @@ export async function GET(request: Request) {
     geminiApiKey: process.env.GEMINI_API_KEY!,
     supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL!,
     supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    unsplashAccessKey: process.env.UNSPLASH_ACCESS_KEY,
+    pexelsApiKey: process.env.PEXELS_API_KEY,
     theme,
     issueDate: issueDate.toISOString().split('T')[0],
   });
@@ -377,11 +378,11 @@ const result = await runMonthlyArtPipeline({
 - Check storage policies are set correctly
 - Verify `SUPABASE_SERVICE_ROLE_KEY` is correct
 
-### Unsplash API Errors
+### Pexels API Errors
 
 **Error: Rate limit exceeded**
-- Unsplash free tier has rate limits
-- Consider upgrading or reducing `sourcedCount`
+- Pexels free tier: 200 requests/hour
+- Consider reducing `sourcedCount` or waiting for rate limit reset
 
 ---
 
@@ -392,9 +393,10 @@ const result = await runMonthlyArtPipeline({
 - Image generation costs vary by model
 - Monitor usage in Google Cloud Console
 
-### Unsplash API
-- Free tier: 50 requests/hour
-- Paid plans available for higher volume
+### Pexels API
+- **Free tier: 200 requests/hour** (instant signup!)
+- Completely free for personal and commercial use
+- No paid tiers needed for this use case
 
 ### Supabase Storage
 - Free tier: 1GB storage
