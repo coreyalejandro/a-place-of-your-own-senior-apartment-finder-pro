@@ -11,15 +11,15 @@ export default function ContentsPage() {
       <SkipLinks />
 
       <main className="container mx-auto px-4 py-12 max-w-5xl" role="main" id="main-content">
-        {/* Magazine Cover with Hero Image */}
+        {/* Magazine Cover - Full Page */}
         <div className="bg-white border-4 border-[#D4C4B0] rounded-lg shadow-2xl mb-12 overflow-hidden">
-          {/* Cover Image */}
-          <div className="relative h-[500px] md:h-[600px] overflow-hidden">
+          {/* Cover Image - Full Page Height */}
+          <div className="relative h-[calc(100vh-6rem)] min-h-[800px] overflow-hidden">
             <Image
-              src="/cover-lounge-scene.jpg"
-              alt="Warm, welcoming lounge scene with diverse seniors in conversation, celebrating community and connection in a light-filled, comfortable space"
+              src="/cover-collage.png"
+              alt="A vibrant collage of diverse seniors and their families, celebrating life, wisdom, and connection across generations"
               fill
-              className="object-cover"
+              className="object-cover object-center"
               priority
               sizes="(max-width: 1280px) 100vw, 1280px"
             />
@@ -42,7 +42,7 @@ export default function ContentsPage() {
 
             {/* Cover Story Teaser */}
             <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
-              <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-2xl p-6 md:p-8 max-w-2xl">
+              <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-2xl p-6 md:p-8 max-w-2xl mx-auto">
                 <p className="text-sm uppercase tracking-wider text-[#8B7355] mb-2">Featured Story</p>
                 <h2 className="font-serif text-2xl md:text-4xl text-[#5C4A3C] mb-3 leading-tight">
                   Stories, Wisdom, and Guidance for Your Next Chapter
