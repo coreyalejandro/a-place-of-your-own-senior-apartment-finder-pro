@@ -1,0 +1,244 @@
+{
+  "requests": [
+    {
+      "custom_id": "01_grandmother_balcony_evening",
+      "prompt": "A warm, painterly digital art scene of an elderly Black grandmother in a cardigan standing on a small apartment balcony at golden hour, watering potted herbs. Soft evening light filters through, casting gentle shadows. The background shows a modest senior apartment complex courtyard. Emotional focus on peaceful contentment and care. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "02_couple_kitchen_morning",
+      "prompt": "A tender digital painting of an elderly interracial couple (Asian woman, White man) making breakfast together in a bright, accessible kitchen with grab bars and lowered counters. Morning sunlight streams through a window overlooking a senior community garden. Warm colors, soft focus on their gentle interaction. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "03_grandfather_woodworking",
+      "prompt": "A dignified portrait of a Latino grandfather in his small apartment workshop, carefully sanding a wooden birdhouse. Warm afternoon light illuminates sawdust in the air. Through the window, glimpses of a senior housing community. Focus on wisdom, craft, and purpose. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "04_book_club_lounge",
+      "prompt": "A warm group scene of diverse senior women (Black, White, Latina, Asian) gathered in a community lounge with comfortable chairs, discussing books over tea. Large windows show the senior apartment complex courtyard. Soft lighting, rich colors, focus on connection and intellectual engagement. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "05_grandmother_granddaughter_baking",
+      "prompt": "An intimate kitchen scene of a South Asian grandmother and her teenage granddaughter baking together, flour on their hands, sharing laughter. The modern accessible kitchen has senior-friendly features. Window view shows other apartment buildings. Emphasis on generational connection and tradition. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "06_veteran_flag_folding",
+      "prompt": "A respectful scene of an elderly Black veteran carefully folding an American flag in his modest apartment living room. Military memorabilia on shelves, soft afternoon light. Through the window, a peaceful senior community. Focus on dignity, service, and reflection. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "07_art_class_common_room",
+      "prompt": "A vibrant scene of diverse seniors painting watercolors together in a bright community room with easels. An instructor (Middle Eastern woman) guides them. Large windows show the senior housing exterior. Colorful, joyful, emphasizing creativity and community. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "08_widow_photo_album",
+      "prompt": "A touching portrait of an elderly White woman sitting by a window with afternoon light, looking through a photo album. Her modest apartment is warm and personal. Soft focus on bittersweet memory and resilience. Visible senior housing community through window. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "09_chess_partners_courtyard",
+      "prompt": "Two elderly men (one Black, one Latino) playing chess at an outdoor table in a senior apartment courtyard garden. Dappled sunlight through trees, other residents visible in background. Focus on friendship, strategy, and peaceful routine. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "10_yoga_sunrise_balcony",
+      "prompt": "A serene scene of an elderly Asian woman doing gentle yoga on her apartment balcony at sunrise. Potted plants surround her, golden light beginning to fill the space. Senior housing complex visible below. Emphasis on wellness, peace, and new beginnings. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "11_dinner_preparation_multigenerational",
+      "prompt": "A bustling, warm kitchen scene where an elderly Latina grandmother, her daughter, and grandchildren prepare a family dinner together. Accessible kitchen design visible. The apartment window shows other units in the complex. Focus on tradition, family, and belonging. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "12_knitting_circle_community",
+      "prompt": "A cozy common room scene with diverse senior women knitting together, soft yarn in various colors. Comfortable chairs, warm lighting, large windows showing the senior community grounds. Focus on craft, conversation, and camaraderie. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "13_music_therapy_session",
+      "prompt": "An uplifting scene of seniors from diverse backgrounds participating in a music therapy session, some with instruments, others singing. A therapist leads them in a bright community space. Windows show the apartment complex. Emphasis on joy, expression, and healing. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "14_gardening_community_plot",
+      "prompt": "A sunny scene of diverse seniors tending a shared community garden plot - planting, watering, harvesting. The senior apartment buildings frame the background. Warm afternoon light, rich earth tones. Focus on growth, purpose, and community. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "15_birthday_celebration_common_room",
+      "prompt": "A joyful birthday party in a decorated community room - diverse seniors celebrating together with cake and balloons. Warm, festive lighting. Large windows show the senior housing exterior. Emphasis on celebration, belonging, and friendship. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "16_tai_chi_morning_courtyard",
+      "prompt": "A peaceful early morning scene of seniors practicing Tai Chi together in the courtyard of their apartment complex. Soft dawn light, gentle movements synchronized. Asian instructor leading diverse group. Focus on wellness, mindfulness, and community practice. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "17_tech_help_intergenerational",
+      "prompt": "A heartwarming scene of a teenage volunteer helping an elderly Black man learn to video call on a tablet in his apartment. Both smiling, warm afternoon light. The apartment is modest but personal. Window shows senior community. Focus on connection across generations and digital inclusion. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "18_poetry_reading_evening",
+      "prompt": "An intimate evening gathering where an elderly White woman reads her poetry to a small audience of diverse seniors in a cozy community library. Warm lamp light, attentive faces. Bookshelves and windows showing twilight outside the senior complex. Focus on expression, listening, and artistic community. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "19_mealtime_together_dining",
+      "prompt": "A warm communal dining scene with diverse seniors sharing a meal together at long tables. Bright, welcoming dining hall with large windows showing the senior apartment grounds. Conversation, laughter, varied dishes. Focus on nourishment, community, and daily ritual. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "20_letter_writing_window",
+      "prompt": "A contemplative portrait of an elderly Latina woman writing a letter at a small desk by a window. Afternoon light illuminates her focused expression. Her apartment is simple but filled with family photos. View of the senior housing community outside. Focus on connection, reflection, and maintaining relationships. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "21_walker_corridor_helping",
+      "prompt": "A touching hallway scene where one senior (Middle Eastern man) helps another senior (Asian woman with walker) navigate the accessible corridor of their apartment building. Warm overhead lighting, railings visible. Open apartment doors hint at community. Focus on mutual support and dignity. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "22_movie_night_community",
+      "prompt": "A cozy movie night in the community theater room - diverse seniors in comfortable chairs watching a classic film together. Soft projector glow, warm ambiance. Some sharing popcorn, others holding hands. Senior housing visible through windows. Focus on shared experience and companionship. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "23_meditation_quiet_room",
+      "prompt": "A serene meditation scene with diverse seniors sitting quietly in a dedicated wellness room. Soft natural light from large windows, plants, cushions. The senior apartment complex visible outside. Focus on inner peace, mindfulness, and spiritual wellness. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "24_grandparent_storytime",
+      "prompt": "A magical scene of an elderly Black grandfather reading a storybook to his grandchildren in his cozy apartment living room. Kids nestled around him, rapt attention. Warm lamp light, bookshelves full of stories. Window shows the senior community. Focus on legacy, imagination, and love. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "25_coffee_morning_balcony_neighbors",
+      "prompt": "A friendly scene of two senior neighbors (one Latina, one White) having morning coffee on adjacent balconies, chatting across the small divide. Potted flowers, morning sunlight, visible senior apartment complex. Focus on neighborly bonds, routine connection, and community. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "26_exercise_class_accessible",
+      "prompt": "An energetic scene of diverse seniors in an accessible fitness class - some seated, some standing, all participating. Instructor demonstrating moves, bright community gym with mirrors and windows showing the senior complex. Focus on health, ability at all levels, and encouragement. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "27_holiday_decorating_together",
+      "prompt": "A festive scene of diverse seniors decorating a community Christmas tree together in the main lobby. Laughter, teamwork, ornaments, warm twinkling lights. Large windows show winter outside the senior apartment building. Focus on tradition, celebration, and shared joy. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "28_piano_lounge_evening",
+      "prompt": "An elegant evening scene of an elderly Asian woman playing piano in the community lounge while other diverse seniors listen, some singing along. Soft evening light through tall windows showing the senior complex grounds. Focus on music, culture, and shared beauty. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "29_sunset_watching_courtyard",
+      "prompt": "A peaceful scene of diverse seniors sitting on courtyard benches watching the sunset together. Warm golden hour light bathing the senior apartment complex. Some hold hands, others sit in comfortable silence. Focus on reflection, beauty, and the end of a good day. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    },
+    {
+      "custom_id": "30_welcome_new_resident",
+      "prompt": "A welcoming scene in an apartment hallway where established residents greet a new senior moving in. Diverse group bringing housewarming gifts, warm smiles, moving boxes visible. Bright, accessible corridor of the senior apartment building. Focus on hospitality, new beginnings, and instant community. Style: digital art, painterly realism, warm light.",
+      "params": {
+        "temperature": 0.7,
+        "visual_theme": "digital art, painterly realism, warm light"
+      }
+    }
+  ]
+}
