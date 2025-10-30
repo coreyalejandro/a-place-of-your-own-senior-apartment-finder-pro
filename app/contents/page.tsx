@@ -1,173 +1,114 @@
+'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
-import { SkipLinks } from '@/components/ui/SkipLinks';
-import { Button } from '@/components/ui/Button';
-import { articles } from '@/lib/data/articles';
+import { BookOpen, Map, Users, Heart, Bookmark, Newspaper } from 'lucide-react';
+
+const tableOfContents = [
+  {
+    icon: BookOpen,
+    title: 'Preference for Type of Place',
+    description: 'Discover what kind of senior living fits your lifestyle and needs',
+    href: '/preferences',
+  },
+  {
+    icon: Map,
+    title: 'Search for an Apartment',
+    description: 'Find available housing with our interactive map and smart filters',
+    href: '/apartments',
+  },
+  {
+    icon: Users,
+    title: 'Find a Realtor',
+    description: 'Connect with trusted realtors who specialize in senior housing',
+    href: '/realtors',
+  },
+  {
+    icon: Heart,
+    title: 'Favorites',
+    description: 'Your saved properties and places you want to remember',
+    href: '/favorites',
+  },
+  {
+    icon: Bookmark,
+    title: 'Bookmarks',
+    description: 'Articles and resources you have marked for later',
+    href: '/bookmarks',
+  },
+  {
+    icon: Newspaper,
+    title: 'Articles & Stories',
+    description: 'Essays, wisdom, and honest conversations about life transitions',
+    href: '/articles',
+  },
+];
 
 export default function ContentsPage() {
   return (
-    <div className="min-h-screen bg-[#FAF8F5]">
-      <SkipLinks />
-
-      <main className="container mx-auto px-4 py-12 max-w-5xl" role="main" id="main-content">
-        {/* Magazine Cover - Full Page */}
-        <div className="bg-white border-4 border-[#D4C4B0] rounded-lg shadow-2xl mb-12 overflow-hidden">
-          {/* Cover Image - Full Page Height */}
-          <div className="relative h-[calc(100vh-6rem)] min-h-[800px] overflow-hidden">
-            <Image
-              src="/cover-collage.png"
-              alt="A vibrant collage of diverse seniors and their families, celebrating life, wisdom, and connection across generations"
-              fill
-              className="object-cover object-center"
-              priority
-              sizes="(max-width: 1280px) 100vw, 1280px"
-            />
-            {/* Gradient overlay for text legibility */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60"></div>
-
-            {/* Magazine Masthead */}
-            <div className="absolute top-0 left-0 right-0 p-8 md:p-12 text-center">
-              <div className="mb-4">
-                <span className="text-sm uppercase tracking-widest text-white/90 drop-shadow-lg">Volume 1 • 2024</span>
-              </div>
-              <h1 className="font-serif text-5xl md:text-7xl mb-4 leading-tight text-white drop-shadow-2xl">
-                A Place of Your Own
-              </h1>
-              <p className="font-serif text-2xl md:text-3xl mb-3 italic text-white/95 drop-shadow-lg">
-                Magazine
-              </p>
-              <div className="w-32 h-1 bg-white/70 mx-auto drop-shadow-lg"></div>
-            </div>
-
-            {/* Cover Story Teaser */}
-            <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
-              <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-2xl p-6 md:p-8 max-w-2xl mx-auto">
-                <p className="text-sm uppercase tracking-wider text-[#8B7355] mb-2">Featured Story</p>
-                <h2 className="font-serif text-2xl md:text-4xl text-[#5C4A3C] mb-3 leading-tight">
-                  Stories, Wisdom, and Guidance for Your Next Chapter
-                </h2>
-                <div className="grid grid-cols-3 gap-4 mb-6 text-center">
-                  <div>
-                    <div className="text-3xl mb-1">📖</div>
-                    <p className="text-sm text-[#5C4A3C] font-medium">6 Stories</p>
-                  </div>
-                  <div>
-                    <div className="text-3xl mb-1">✨</div>
-                    <p className="text-sm text-[#5C4A3C] font-medium">Life Transitions</p>
-                  </div>
-                  <div>
-                    <div className="text-3xl mb-1">💡</div>
-                    <p className="text-sm text-[#5C4A3C] font-medium">Real Wisdom</p>
-                  </div>
-                </div>
-                <Link href={`/articles/${articles[0].id}`}>
-                  <Button size="lg" className="w-full md:w-auto">Begin Reading</Button>
-                </Link>
-              </div>
-            </div>
-          </div>
+    <div className="magazine-page min-h-screen pt-24">
+      <div className="max-w-4xl mx-auto px-8">
+        {/* Title */}
+        <div className="text-center mb-16">
+          <h1 className="font-display text-5xl md:text-6xl text-[#1C1C1C] mb-4 uppercase tracking-wide">
+            The Apt Finder
+          </h1>
+          <p className="font-serif text-2xl text-[#4B3E2B] mb-2">A Place of Your Own</p>
+          <p className="font-sans text-sm text-[#4B3E2B] tracking-widest uppercase">
+            Real Places. Real People. Real Belonging.
+          </p>
+          <hr className="section-divider mt-8" />
         </div>
 
-        {/* Dedication */}
-        <section className="mb-16">
-          <div className="bg-white border-4 border-[#D4C4B0] rounded-lg p-8 md:p-12 shadow-lg">
-            <div className="flex flex-col md:flex-row gap-8 items-center">
-              {/* Mom's Portrait */}
-              <div className="flex-shrink-0">
-                <div className="relative w-64 h-80 rounded-lg overflow-hidden shadow-xl border-4 border-[#8B7355]">
-                  <Image
-                    src="/mary-ann-portrait.jpg"
-                    alt="Mary Ann - A woman of wisdom, strength, and grace"
-                    fill
-                    className="object-cover"
-                    sizes="256px"
-                  />
-                </div>
-              </div>
+        {/* Table of Contents Grid */}
+        <div className="space-y-6">
+          {tableOfContents.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="magazine-card block group hover:shadow-lg transition-all"
+              >
+                <div className="flex items-start gap-6">
+                  {/* Icon & Number */}
+                  <div className="flex-shrink-0">
+                    <div className="w-16 h-16 rounded-full border-2 border-[#C48F4A] flex items-center justify-center bg-[#F8F3E7] group-hover:bg-[#C48F4A] transition-colors">
+                      <Icon className="w-8 h-8 icon-outlined group-hover:stroke-white transition-colors" />
+                    </div>
+                  </div>
 
-              {/* Dedication Text */}
-              <div className="flex-1">
-                <p className="text-sm uppercase tracking-wider text-[#8B7355] mb-4 text-center md:text-left">
-                  This Issue is Dedicated To
-                </p>
-                <h2 className="font-serif text-3xl md:text-4xl text-[#5C4A3C] mb-6 text-center md:text-left">
-                  Mary Ann
-                </h2>
-                <div className="prose prose-lg max-w-none">
-                  <p className="text-[#5C4A3C] leading-relaxed mb-4">
-                    This first issue is dedicated to my mother, Mary Ann, whose journey through life's transitions
-                    taught me the true meaning of dignity, resilience, and grace. Her wisdom about what makes a
-                    house a home—not the walls, but the love and memories within—inspired everything you'll read
-                    in these pages.
-                  </p>
-                  <p className="text-[#5C4A3C] leading-relaxed mb-4">
-                    She showed me that finding your place in the world isn't about the perfect location or the
-                    finest amenities. It's about belonging, connection, and the freedom to write your own next
-                    chapter with courage and hope.
-                  </p>
-                  <p className="text-[#8B7355] italic">
-                    Mom, this magazine—and the mission behind it—exists because you taught me to see housing
-                    transitions not as endings, but as opportunities for new beginnings. Thank you.
-                  </p>
-                  <p className="text-right text-[#5C4A3C] mt-6 font-serif text-lg">
-                    — With love and gratitude
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Table of Contents */}
-        <section className="mb-12">
-          <h2 className="font-serif text-4xl text-[#5C4A3C] mb-8 text-center border-b-2 border-[#D4C4B0] pb-4">
-            Table of Contents
-          </h2>
-
-          <div className="space-y-8">
-            {articles.map((article, index) => (
-              <article key={article.id} className="bg-white border-2 border-[#D4C4B0] rounded-lg p-6 hover:shadow-lg transition-shadow">
-                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                  {/* Content */}
                   <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-3">
-                      <span className="text-sm font-medium text-[#8B7355] bg-[#FAF8F5] px-3 py-1 rounded-full">
-                        {index + 1}
+                    <div className="flex items-baseline gap-3 mb-2">
+                      <span className="font-sans text-sm text-[#855E2B] font-semibold">
+                        {String(index + 1).padStart(2, '0')}
                       </span>
-                      <span className="text-sm text-[#8B7355]">{article.readTime}</span>
+                      <h2 className="font-display text-2xl text-[#1C1C1C] group-hover:text-[#C48F4A] transition-colors">
+                        {item.title}
+                      </h2>
                     </div>
-                    
-                    <h3 className="font-serif text-xl text-[#5C4A3C] mb-2">
-                      {article.title}
-                    </h3>
-                    
-                    <p className="font-serif text-lg text-[#8B7355] mb-3 italic">
-                      {article.subtitle}
+                    <p className="font-serif text-[#4B3E2B] text-lg leading-relaxed">
+                      {item.description}
                     </p>
-                    
-                    <p className="text-[#5C4A3C] mb-4 leading-relaxed">
-                      {article.summary}
-                    </p>
-                    
-                    <div className="flex items-center justify-between text-sm text-[#8B7355]">
-                      <span>By {article.author}</span>
-                      <span>{article.date}</span>
-                    </div>
                   </div>
-                  
-                  <div className="md:ml-6">
-                    <Link href={`/articles/${article.id}`}>
-                      <Button variant="outline" size="sm">
-                        Read Article
-                      </Button>
-                    </Link>
+
+                  {/* Arrow */}
+                  <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="text-[#C48F4A] text-2xl">→</span>
                   </div>
                 </div>
-              </article>
-            ))}
-          </div>
-        </section>
-      </main>
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Footer Note */}
+        <div className="mt-16 text-center">
+          <hr className="section-divider mb-8" />
+          <p className="font-serif text-[#4B3E2B] italic text-lg">
+            Turn the page to begin your journey
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

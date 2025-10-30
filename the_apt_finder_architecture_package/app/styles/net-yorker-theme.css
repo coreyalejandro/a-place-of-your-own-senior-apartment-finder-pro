@@ -1,0 +1,31 @@
+:root {
+  --color-bg: #F5EBD1;
+  --color-text: #1C1C1C;
+  --color-text-secondary: #4B3E2B;
+  --color-accent: #C48F4A;
+  --color-border: #D3C5A0;
+  --color-link: #855E2B;
+}
+
+html, body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Lora', serif;
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+}
+
+button, nav, input, label {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.editor-letter p::first-letter {
+  float: left;
+  font-size: 3.5em;
+  line-height: 0.8;
+  margin-right: 10px;
+  font-weight: 700;
+}

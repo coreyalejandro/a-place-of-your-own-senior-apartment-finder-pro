@@ -3,7 +3,7 @@ import { RegisterForm } from '@/components/auth/RegisterForm';
 
 export default function RegisterPage() {
   return (
-    <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center px-4 py-12 pt-24">
       <div className="max-w-md w-full bg-white border-2 border-[#D4C4B0] rounded-lg p-8">
         <h1 className="font-serif text-3xl text-[#5C4A3C] mb-2 text-center">
           Create Your Account

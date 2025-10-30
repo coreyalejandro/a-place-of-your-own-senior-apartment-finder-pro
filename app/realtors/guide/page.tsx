@@ -51,7 +51,7 @@ export default function RealtorGuidePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5]">
+    <div className="min-h-screen bg-[#FAF8F5] pt-16">
       <SkipLinks />
 
       <main className="container mx-auto px-4 py-8 max-w-4xl" role="main" id="main-content">

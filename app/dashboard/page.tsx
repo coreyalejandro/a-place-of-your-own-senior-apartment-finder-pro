@@ -1,10 +1,11 @@
+'use client';
 
 import Link from 'next/link';
 import { SkipLinks } from '@/components/ui/SkipLinks';
 
 export default function DashboardPage() {
   return (
-    <div className="min-h-screen bg-[#FAF8F5]">
+    <div className="min-h-screen bg-[#FAF8F5] pt-16">
       <SkipLinks />
 
       <main className="container mx-auto px-4 py-8" role="main" id="main-content">

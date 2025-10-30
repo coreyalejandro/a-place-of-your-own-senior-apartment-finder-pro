@@ -1,4 +1,3 @@
-
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -7,26 +6,27 @@ import { Button } from '@/components/ui/Button';
 import { getArticleBySlug, getNextArticle, getPreviousArticle } from '@/lib/data/articles';
 
 interface ArticlePageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
-export default function ArticlePage({ params }: ArticlePageProps) {
-  const article = getArticleBySlug(params.slug);
+export default async function ArticlePage({ params }: ArticlePageProps) {
+  const { slug } = await params;
+  const article = getArticleBySlug(slug);
 
   if (!article) {
     notFound();
   }
 
-  const nextArticle = getNextArticle(params.slug);
-  const previousArticle = getPreviousArticle(params.slug);
+  const nextArticle = getNextArticle(slug);
+  const previousArticle = getPreviousArticle(slug);
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5]">
+    <div className="magazine-page min-h-screen pt-24">
       <SkipLinks />
 
-      <main className="container mx-auto px-4 py-8 max-w-4xl" role="main" id="main-content">
+      <main className="max-w-4xl mx-auto px-8" role="main" id="main-content">
         <div className="mb-6">
           <Link href="/contents">
             <Button variant="outline">
@@ -85,26 +85,29 @@ export default function ArticlePage({ params }: ArticlePageProps) {
             )}
           </header>
 
-          <div className="bg-white border-2 border-[#D4C4B0] rounded-lg p-8 md:p-12">
-            <div 
-              className="text-lg text-[#5C4A3C] leading-relaxed space-y-6"
-              dangerouslySetInnerHTML={{ 
+          <div className="two-column-text">
+            <div
+              className="text-lg text-[#4B3E2B] leading-relaxed space-y-6"
+              dangerouslySetInnerHTML={{
                 __html: article.content
                   .split('\n\n')
-                  .map(paragraph => {
+                  .map((paragraph, index) => {
                     // Handle headers
                     if (paragraph.startsWith('**') && paragraph.endsWith('**')) {
                       const text = paragraph.slice(2, -2);
-                      return `<h2 class="font-serif text-2xl text-[#5C4A3C] mt-8 mb-4 font-bold">${text}</h2>`;
+                      return `<h2 class="font-display text-2xl text-[#1C1C1C] mt-8 mb-4 font-bold">${text}</h2>`;
                     }
-                    
+
                     // Handle bold text within paragraphs
                     const formattedParagraph = paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                    
+
                     // Handle italic text
                     const finalParagraph = formattedParagraph.replace(/\*(.*?)\*/g, '<em>$1</em>');
-                    
-                    return `<p class="mb-4">${finalParagraph}</p>`;
+
+                    // Add drop-cap class to first paragraph
+                    const dropCapClass = index === 0 ? 'drop-cap' : '';
+
+                    return `<p class="mb-6 ${dropCapClass}">${finalParagraph}</p>`;
                   })
                   .join('')
               }}

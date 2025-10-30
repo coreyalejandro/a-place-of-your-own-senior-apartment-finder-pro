@@ -51,3 +51,4 @@ tools/art-generation/.ipynb_checkpoints/
 *.tmp
 *.bak
 *.log
+.vercel

@@ -66,7 +66,6 @@ export default function RealtorsPage() {
 
   return (
     <>
-      <MagazineNavigation />
       <div className="min-h-screen bg-[#FAF8F5] flex pt-16">
         {/* Filter Sidebar - Traditional checkbox approach */}
         <RealtorFilterSidebar
@@ -80,20 +79,20 @@ export default function RealtorsPage() {
         {/* Main Content */}
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Header with Search */}
-          <header className="bg-white border-b-2 border-[#D4C4B0]" role="banner">
+          <header className="bg-[#F8F3E7] border-b border-[#D3C5A0]" role="banner">
             <div className="container mx-auto px-4 py-6">
               <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-6">
-                  <Link href="/contents" className="font-serif text-3xl text-[#5C4A3C] hover:text-[#8B7355] transition-colors">
-                    A Place of Your Own
-                  </Link>
-                  <div className="h-px bg-[#D4C4B0] w-24 mx-auto mt-2" />
+                  <h1 className="font-display text-4xl text-[#1C1C1C] mb-2 uppercase tracking-wide">
+                    Trusted Real Estate Professionals
+                  </h1>
+                  <p className="font-serif text-[#4B3E2B] italic">
+                    Vetted experts for your housing journey
+                  </p>
+                  <hr className="section-divider mt-4" />
                 </div>
 
-                <h1 className="font-serif text-3xl text-[#5C4A3C] mb-2 text-center">
-                  Trusted Real Estate Professionals
-                </h1>
-                <p className="text-[#8B7355] mb-6 text-center max-w-2xl mx-auto">
+                <p className="font-serif text-[#4B3E2B] mb-6 text-center max-w-2xl mx-auto">
                   Connect with carefully vetted, experienced professionals who understand the unique needs of senior housing transitions.
                 </p>
 
@@ -106,13 +105,13 @@ export default function RealtorsPage() {
                       onChange={(e) => setSearchQuery(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                       placeholder="Search by name, location, or specialty..."
-                      className="w-full px-6 py-4 pr-32 border-2 border-[#D4C4B0] rounded-lg font-serif text-lg text-[#5C4A3C] placeholder:text-[#A0826D] focus:outline-none focus:ring-2 focus:ring-[#8B7355] focus:border-transparent"
+                      className="w-full px-6 py-4 pr-32 border border-[#D3C5A0] rounded-lg font-serif text-lg text-[#1C1C1C] bg-[#F5EBD1] placeholder:text-[#8A6A45] focus:outline-none focus:ring-2 focus:ring-[#C48F4A] focus:border-transparent"
                     />
                     <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-2">
                       <button
                         onClick={handleSearch}
                         disabled={isSearching}
-                        className="p-2 bg-[#8B7355] text-white rounded-lg hover:bg-[#5C4A3C] transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-w-[40px] min-h-[40px]"
+                        className="p-2 bg-[#C48F4A] text-[#F5EBD1] rounded-lg hover:bg-[#8A6A45] transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-w-[40px] min-h-[40px]"
                         aria-label="Search"
                       >
                         {isSearching ? (
@@ -128,7 +127,7 @@ export default function RealtorsPage() {
                     </div>
                   </div>
 
-                  <p className="text-sm text-[#8B7355] mt-3 text-center font-serif italic">
+                  <p className="text-sm text-[#4B3E2B] mt-3 text-center font-serif italic">
                     Try: "senior housing specialist in Cleveland" or use the filters on the left
                   </p>
                 </div>
@@ -148,7 +147,7 @@ export default function RealtorsPage() {
           <main className="flex-1 overflow-y-auto p-6">
             <div className="container mx-auto max-w-6xl">
               <div className="mb-6">
-                <p className="text-[#8B7355] text-lg">
+                <p className="font-serif text-[#4B3E2B] text-lg">
                   {filteredRealtors.length} professional{filteredRealtors.length !== 1 ? 's' : ''} found
                 </p>
               </div>
@@ -156,28 +155,28 @@ export default function RealtorsPage() {
               {filteredRealtors.length > 0 ? (
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredRealtors.map(realtor => (
-                    <div key={realtor.id} className="bg-white border-2 border-[#D4C4B0] rounded-lg p-6 hover:shadow-lg transition-all h-full flex flex-col">
+                    <div key={realtor.id} className="magazine-card group hover:shadow-lg transition-all h-full flex flex-col">
                       {/* Photo/Initials */}
-                      <div className="w-20 h-20 bg-[#8B7355] rounded-full flex items-center justify-center mb-4">
-                        <span className="text-2xl font-bold text-[#FAF8F5]">
+                      <div className="w-20 h-20 bg-[#C48F4A] rounded-full flex items-center justify-center mb-4 group-hover:bg-[#8A6A45] transition-colors">
+                        <span className="text-2xl font-bold text-[#F5EBD1]">
                           {realtor.initials}
                         </span>
                       </div>
 
-                      <h3 className="font-serif text-xl text-[#5C4A3C] mb-2">
+                      <h3 className="font-display text-xl text-[#1C1C1C] mb-2 group-hover:text-[#C48F4A] transition-colors">
                         {realtor.name}
                       </h3>
-                      <p className="text-[#8B7355] mb-2">{realtor.location}</p>
-                      <p className="text-sm text-[#8B7355] mb-3">
+                      <p className="font-serif text-[#4B3E2B] mb-2">{realtor.location}</p>
+                      <p className="text-sm font-sans text-[#855E2B] mb-3">
                         <strong>Specialty:</strong> {realtor.specialty}
                       </p>
 
-                      <p className="text-[#5C4A3C] mb-4 line-clamp-3 flex-grow">
+                      <p className="font-serif text-[#1C1C1C] mb-4 line-clamp-3 flex-grow">
                         {realtor.description}
                       </p>
 
-                      <div className="flex justify-between items-center mt-auto pt-4 border-t border-[#D4C4B0]">
-                        <span className="text-sm text-[#8B7355]">
+                      <div className="flex justify-between items-center mt-auto pt-4 border-t border-[#D3C5A0]">
+                        <span className="text-sm font-sans text-[#4B3E2B]">
                           {realtor.yearsExperience} years exp.
                         </span>
                         <Link href={`/realtors/${realtor.id}`}>
@@ -190,10 +189,10 @@ export default function RealtorsPage() {
               ) : (
                 <div className="text-center py-16">
                   <div className="text-6xl mb-4">🔍</div>
-                  <p className="text-xl text-[#8B7355] mb-4 font-serif">
+                  <p className="font-serif text-xl text-[#4B3E2B] mb-4">
                     No realtors found matching your criteria
                   </p>
-                  <p className="text-sm text-[#A0826D] mb-6">
+                  <p className="font-serif text-sm text-[#8A6A45] mb-6">
                     Try adjusting your filters or search terms
                   </p>
                   <Button

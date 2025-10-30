@@ -1,0 +1,132 @@
+/*
+ * The Apt Finder — Net Yorker Theme
+ * A Place of Your Own: Real Places. Real People. Real Belonging.
+ */
+
+:root {
+  --color-bg: #F5EBD1;
+  --color-text: #1C1C1C;
+  --color-text-secondary: #4B3E2B;
+  --color-accent: #C48F4A;
+  --color-border: #D3C5A0;
+  --color-highlight: #8A6A45;
+  --color-link: #855E2B;
+  --color-nav-bg: #F8F3E7;
+
+  --font-display: "Playfair Display", serif;
+  --font-serif: "Lora", serif;
+  --font-sans: "Source Sans Pro", sans-serif;
+}
+
+/* Full-page cover image handling */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: var(--color-bg);
+  font-family: var(--font-serif);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Keep consistent feel */
+* {
+  box-sizing: border-box;
+}
+
+/* Magazine Wrapper */
+.magazine-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Masthead/Header */
+.masthead {
+  background: var(--color-bg);
+  text-align: center;
+  padding: 2rem 1rem 1rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.title-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.title-line-1 {
+  font-family: "Playfair Display", "Georgia", serif;
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.title-line-2 {
+  font-family: "Playfair Display", "Georgia", serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  display: block;
+}
+
+.subtitle {
+  font-family: "Playfair Display", serif;
+  text-transform: uppercase;
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+}
+
+/* Main content area */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+main > div {
+  flex: 1;
+  display: flex;
+}
+
+/* Footer */
+.footer {
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+  padding: 2rem 1rem;
+  font-family: "Source Sans Pro", sans-serif;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+}
+
+.footer nav {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.footer a {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer a:hover {
+  color: var(--color-link);
+  text-decoration: underline;
+}
+
+.footer p {
+  font-family: "Lora", serif;
+  color: var(--color-text-secondary);
+  text-transform: none;
+  font-size: 0.85rem;
+}

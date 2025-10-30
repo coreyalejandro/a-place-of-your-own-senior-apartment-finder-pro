@@ -1,24 +1,38 @@
-
 import type { Metadata } from "next";
-import { Navigation } from "@/components/ui/Navigation";
+import { MagazineLayout } from "@/components/MagazineLayout";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import "./globals.css";
+import "../styles/net-yorker-theme.css";
 
 export const metadata: Metadata = {
-  title: "A Place of Your Own - Senior Apartment Finder",
-  description: "Finding your place in the next chapter. A dignified, joyful approach to senior housing search.",
+  title: "The Apt Finder - A Place of Your Own",
+  description:
+    "Real Places. Real People. Real Belonging. A magazine-style guide to senior housing search.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className="antialiased">
-        <Navigation />
-        {children}
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:wght@400;600&family=Source+Sans+Pro:wght@400;500;600&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="antialiased bg-[--color-bg]">
+        <MagazineLayout>
+          {children}
+        </MagazineLayout>
         <ChatWidget />
       </body>
     </html>
