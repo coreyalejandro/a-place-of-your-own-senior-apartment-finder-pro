@@ -78,6 +78,11 @@ export default function ArticlePage({ params }: ArticlePageProps) {
               <span className="hidden md:inline">•</span>
               <span>{article.readTime}</span>
             </div>
+            {article.id !== 'letter-from-the-editor' && (
+              <p className="text-center text-sm text-[#8B7355] mt-2 italic">
+                A Place of Your Own Agentic Editorial Team + Verified by professional domain and subject matter experts.
+              </p>
+            )}
           </header>
 
           <div className="bg-white border-2 border-[#D4C4B0] rounded-lg p-8 md:p-12">

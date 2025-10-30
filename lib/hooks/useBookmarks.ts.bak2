@@ -1,0 +1,388 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { createBrowserClient } from '@/lib/supabase/client';
+import type { SearchResult } from '@/lib/google-maps/search';
+import type { RealtimeChannel } from '@supabase/supabase-js';
+
+export interface Bookmark {
+  id: string;
+  placeId: string;
+  placeName: string;
+  formattedAddress: string;
+  rating?: number;
+  priceLevel?: number;
+  notes?: string;
+  status: 'saved' | 'toured' | 'applied' | 'declined';
+  createdAt: string;
+  sharedWith?: string[]; // Family member UUIDs
+  familyComments?: Array<{ userId: string; userName: string; comment: string; createdAt: string }>;
+}
+
+export function useBookmarks() {
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+
+  const supabase = createBrowserClient();
+
+  // Initialize and set up realtime subscriptions
+  useEffect(() => {
+    let channel: RealtimeChannel | null = null;
+
+    const initializeBookmarks = async () => {
+      try {
+        // Get current user
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (!user) {
+          // User not logged in - migrate from localStorage if available
+          await migrateFromLocalStorage();
+          setLoading(false);
+          return;
+        }
+
+        setUserId(user.id);
+
+        // Load bookmarks from Supabase
+        await loadBookmarks(user.id);
+
+        // Set up realtime subscription for collaborative updates
+        channel = supabase
+          .channel('bookmarks-changes')
+          .on(
+            'postgres_changes',
+            {
+              event: '*',
+              schema: 'public',
+              table: 'bookmarks',
+              filter: `user_id=eq.${user.id}`
+            },
+            (payload) => {
+              console.log('Bookmark change detected:', payload);
+
+              if (payload.eventType === 'INSERT') {
+                const newBookmark = transformSupabaseBookmark(payload.new);
+                setBookmarks((prev) => [...prev, newBookmark]);
+              } else if (payload.eventType === 'UPDATE') {
+                const updatedBookmark = transformSupabaseBookmark(payload.new);
+                setBookmarks((prev) =>
+                  prev.map((b) => (b.id === updatedBookmark.id ? updatedBookmark : b))
+                );
+              } else if (payload.eventType === 'DELETE') {
+                setBookmarks((prev) => prev.filter((b) => b.id !== payload.old.id));
+              }
+            }
+          )
+          .subscribe();
+
+      } catch (err) {
+        console.error('Failed to initialize bookmarks:', err);
+        setError('Failed to load bookmarks');
+        // Fallback to localStorage
+        await migrateFromLocalStorage();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeBookmarks();
+
+    // Cleanup subscription on unmount
+    return () => {
+      if (channel) {
+        supabase.removeChannel(channel);
+      }
+    };
+  }, []);
+
+  /**
+   * Load bookmarks from Supabase
+   */
+  const loadBookmarks = async (uid: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('bookmarks')
+        .select('*')
+        .eq('user_id', uid)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      const transformed = data.map(transformSupabaseBookmark);
+      setBookmarks(transformed);
+    } catch (err) {
+      console.error('Failed to load bookmarks from Supabase:', err);
+      throw err;
+    }
+  };
+
+  /**
+   * Migrate existing localStorage bookmarks to Supabase (one-time migration)
+   */
+  const migrateFromLocalStorage = async () => {
+    try {
+      const saved = localStorage.getItem('bookmarks');
+      if (!saved) return;
+
+      const localBookmarks: Bookmark[] = JSON.parse(saved);
+
+      if (localBookmarks.length === 0) return;
+
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) {
+        // Just load from localStorage for now
+        setBookmarks(localBookmarks);
+        return;
+      }
+
+      // Migrate to Supabase
+      const { error } = await supabase
+        .from('bookmarks')
+        .upsert(
+          localBookmarks.map((b) => ({
+            user_id: user.id,
+            place_id: b.placeId,
+            place_name: b.placeName,
+            formatted_address: b.formattedAddress,
+            rating: b.rating,
+            price_level: b.priceLevel,
+            user_notes: b.notes,
+            status: b.status,
+            created_at: b.createdAt
+          })) as any,
+          { onConflict: 'user_id,place_id' }
+        );
+
+      if (!error) {
+        // Clear localStorage after successful migration
+        localStorage.removeItem('bookmarks');
+        // Reload from Supabase
+        await loadBookmarks(user.id);
+      }
+    } catch (err) {
+      console.error('Migration from localStorage failed:', err);
+      // Keep using localStorage as fallback
+      const saved = localStorage.getItem('bookmarks');
+      if (saved) {
+        setBookmarks(JSON.parse(saved));
+      }
+    }
+  };
+
+  /**
+   * Transform Supabase bookmark to app format
+   */
+  const transformSupabaseBookmark = (dbBookmark: any): Bookmark => ({
+    id: dbBookmark.id,
+    placeId: dbBookmark.place_id,
+    placeName: dbBookmark.place_name,
+    formattedAddress: dbBookmark.formatted_address,
+    rating: dbBookmark.rating,
+    priceLevel: dbBookmark.price_level,
+    notes: dbBookmark.user_notes,
+    status: dbBookmark.status,
+    createdAt: dbBookmark.created_at,
+    sharedWith: dbBookmark.shared_with || [],
+    familyComments: dbBookmark.family_comments || []
+  });
+
+  /**
+   * Add a new bookmark
+   */
+  const addBookmark = async (listing: SearchResult) => {
+    try {
+      if (!userId) {
+        // Fallback to localStorage
+        const newBookmark: Bookmark = {
+          id: `bookmark-${Date.now()}`,
+          placeId: listing.placeId,
+          placeName: listing.displayName,
+          formattedAddress: listing.formattedAddress,
+          rating: listing.rating,
+          priceLevel: listing.priceLevel,
+          status: 'saved',
+          createdAt: new Date().toISOString()
+        };
+        const updated = [...bookmarks, newBookmark];
+        localStorage.setItem('bookmarks', JSON.stringify(updated));
+        setBookmarks(updated);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from('bookmarks')
+        .insert({
+          user_id: userId,
+          place_id: listing.placeId,
+          place_name: listing.displayName,
+          formatted_address: listing.formattedAddress,
+          lat: listing.location.lat,
+          lng: listing.location.lng,
+          rating: listing.rating,
+          price_level: listing.priceLevel,
+          status: 'saved'
+        } as any)
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      // Realtime subscription will handle the update
+      // But also update locally immediately for instant feedback
+      const newBookmark = transformSupabaseBookmark(data);
+      setBookmarks((prev) => [...prev, newBookmark]);
+    } catch (err) {
+      console.error('Failed to add bookmark:', err);
+      setError('Failed to save bookmark');
+    }
+  };
+
+  /**
+   * Remove a bookmark
+   */
+  const removeBookmark = async (placeId: string) => {
+    try {
+      if (!userId) {
+        // Fallback to localStorage
+        const updated = bookmarks.filter(b => b.placeId !== placeId);
+        localStorage.setItem('bookmarks', JSON.stringify(updated));
+        setBookmarks(updated);
+        return;
+      }
+
+      const { error } = await supabase
+        .from('bookmarks')
+        .delete()
+        .eq('user_id', userId)
+        .eq('place_id', placeId);
+
+      if (error) throw error;
+
+      // Update local state immediately
+      setBookmarks((prev) => prev.filter(b => b.placeId !== placeId));
+    } catch (err) {
+      console.error('Failed to remove bookmark:', err);
+      setError('Failed to remove bookmark');
+    }
+  };
+
+  /**
+   * Update bookmark notes
+   */
+  const updateBookmarkNotes = async (id: string, notes: string) => {
+    try {
+      if (!userId) {
+        // Fallback to localStorage
+        const updated = bookmarks.map(b =>
+          b.id === id ? { ...b, notes } : b
+        );
+        localStorage.setItem('bookmarks', JSON.stringify(updated));
+        setBookmarks(updated);
+        return;
+      }
+
+      const { error } = await (supabase
+        .from('bookmarks') as any)
+        .update({ user_notes: notes, updated_at: new Date().toISOString() })
+        .eq('id', id)
+        .eq('user_id', userId);
+
+      if (error) throw error;
+
+      // Update local state immediately
+      setBookmarks((prev) =>
+        prev.map(b => (b.id === id ? { ...b, notes } : b))
+      );
+    } catch (err) {
+      console.error('Failed to update notes:', err);
+      setError('Failed to update notes');
+    }
+  };
+
+  /**
+   * Update bookmark status
+   */
+  const updateBookmarkStatus = async (id: string, status: Bookmark['status']) => {
+    try {
+      if (!userId) {
+        // Fallback to localStorage
+        const updated = bookmarks.map(b =>
+          b.id === id ? { ...b, status } : b
+        );
+        localStorage.setItem('bookmarks', JSON.stringify(updated));
+        setBookmarks(updated);
+        return;
+      }
+
+      const { error } = await supabase
+        .from('bookmarks')
+        .update({ status, updated_at: new Date().toISOString() } as any)
+        .eq('id', id)
+        .eq('user_id', userId);
+
+      if (error) throw error;
+
+      // Update local state immediately
+      setBookmarks((prev) =>
+        prev.map(b => (b.id === id ? { ...b, status } : b))
+      );
+    } catch (err) {
+      console.error('Failed to update status:', err);
+      setError('Failed to update status');
+    }
+  };
+
+  /**
+   * Share bookmark with family member
+   */
+  const shareWithFamily = async (bookmarkId: string, familyMemberIds: string[]) => {
+    try {
+      if (!userId) {
+        setError('Must be logged in to share bookmarks');
+        return;
+      }
+
+      const { error } = await supabase
+        .from('bookmarks')
+        .update({
+          shared_with: familyMemberIds,
+          updated_at: new Date().toISOString()
+        } as any)
+        .eq('id', bookmarkId)
+        .eq('user_id', userId);
+
+      if (error) throw error;
+
+      // Update local state
+      setBookmarks((prev) =>
+        prev.map(b => (b.id === bookmarkId ? { ...b, sharedWith: familyMemberIds } : b))
+      );
+    } catch (err) {
+      console.error('Failed to share bookmark:', err);
+      setError('Failed to share bookmark');
+    }
+  };
+
+  /**
+   * Check if a place is bookmarked
+   */
+  const isBookmarked = (placeId: string) => {
+    return bookmarks.some(b => b.placeId === placeId);
+  };
+
+  return {
+    bookmarks,
+    loading,
+    error,
+    addBookmark,
+    removeBookmark,
+    updateBookmarkNotes,
+    updateBookmarkStatus,
+    shareWithFamily,
+    isBookmarked,
+    userId
+  };
+}

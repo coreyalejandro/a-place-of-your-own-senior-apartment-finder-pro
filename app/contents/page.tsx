@@ -69,12 +69,62 @@ export default function ContentsPage() {
           </div>
         </div>
 
+        {/* Dedication */}
+        <section className="mb-16">
+          <div className="bg-white border-4 border-[#D4C4B0] rounded-lg p-8 md:p-12 shadow-lg">
+            <div className="flex flex-col md:flex-row gap-8 items-center">
+              {/* Mom's Portrait */}
+              <div className="flex-shrink-0">
+                <div className="relative w-64 h-80 rounded-lg overflow-hidden shadow-xl border-4 border-[#8B7355]">
+                  <Image
+                    src="/mary-ann-portrait.jpg"
+                    alt="Mary Ann - A woman of wisdom, strength, and grace"
+                    fill
+                    className="object-cover"
+                    sizes="256px"
+                  />
+                </div>
+              </div>
+
+              {/* Dedication Text */}
+              <div className="flex-1">
+                <p className="text-sm uppercase tracking-wider text-[#8B7355] mb-4 text-center md:text-left">
+                  This Issue is Dedicated To
+                </p>
+                <h2 className="font-serif text-3xl md:text-4xl text-[#5C4A3C] mb-6 text-center md:text-left">
+                  Mary Ann
+                </h2>
+                <div className="prose prose-lg max-w-none">
+                  <p className="text-[#5C4A3C] leading-relaxed mb-4">
+                    This first issue is dedicated to my mother, Mary Ann, whose journey through life's transitions
+                    taught me the true meaning of dignity, resilience, and grace. Her wisdom about what makes a
+                    house a home—not the walls, but the love and memories within—inspired everything you'll read
+                    in these pages.
+                  </p>
+                  <p className="text-[#5C4A3C] leading-relaxed mb-4">
+                    She showed me that finding your place in the world isn't about the perfect location or the
+                    finest amenities. It's about belonging, connection, and the freedom to write your own next
+                    chapter with courage and hope.
+                  </p>
+                  <p className="text-[#8B7355] italic">
+                    Mom, this magazine—and the mission behind it—exists because you taught me to see housing
+                    transitions not as endings, but as opportunities for new beginnings. Thank you.
+                  </p>
+                  <p className="text-right text-[#5C4A3C] mt-6 font-serif text-lg">
+                    — With love and gratitude
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Table of Contents */}
         <section className="mb-12">
           <h2 className="font-serif text-4xl text-[#5C4A3C] mb-8 text-center border-b-2 border-[#D4C4B0] pb-4">
             Table of Contents
           </h2>
-          
+
           <div className="space-y-8">
             {articles.map((article, index) => (
               <article key={article.id} className="bg-white border-2 border-[#D4C4B0] rounded-lg p-6 hover:shadow-lg transition-shadow">
