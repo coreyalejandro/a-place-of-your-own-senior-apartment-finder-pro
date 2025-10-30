@@ -61,7 +61,7 @@ export function useChatHistory() {
               table: 'conversations',
               filter: `user_id=eq.${user.id}`
             },
-            async (payload) => {
+            async (payload: any) => {
               console.log('Conversation change detected:', payload);
               // Reload conversations on any change
               await loadConversations(user.id);
@@ -78,7 +78,7 @@ export function useChatHistory() {
               schema: 'public',
               table: 'messages'
             },
-            async (payload) => {
+            async (payload: any) => {
               console.log('Message change detected:', payload);
 
               // If this message belongs to the current conversation, add it

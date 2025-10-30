@@ -81,7 +81,7 @@ export function useSurveyState() {
               table: 'preferences',
               filter: `user_id=eq.${user.id}`
             },
-            (payload) => {
+            (payload: any) => {
               console.log('Survey data change detected:', payload);
 
               const newPrefs = payload.new;

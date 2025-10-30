@@ -59,7 +59,7 @@ export function useBookmarks() {
               table: 'bookmarks',
               filter: `user_id=eq.${user.id}`
             },
-            (payload) => {
+            (payload: any) => {
               console.log('Bookmark change detected:', payload);
 
               if (payload.eventType === 'INSERT') {
