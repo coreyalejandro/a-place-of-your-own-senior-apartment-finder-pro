@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useBookmarks } from '@/lib/hooks/useBookmarks';
 import { Bookmark } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export default function BookmarksPage() {
   const { bookmarks, loading, updateBookmarkNotes, updateBookmarkStatus, removeBookmark } = useBookmarks();
   const [filter, setFilter] = useState<'all' | 'saved' | 'toured' | 'applied' | 'declined'>('all');
