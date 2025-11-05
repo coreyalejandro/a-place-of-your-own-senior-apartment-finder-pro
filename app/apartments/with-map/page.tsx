@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { getMockListings } from '@/lib/actions/search';
+import { performSearch, type SearchFilters } from '@/lib/actions/search';
 import { ListingsMap } from '@/components/map/ListingsMap';
 import type { SearchResult } from '@/lib/google-maps/search';
 
@@ -18,7 +18,13 @@ export default function SearchWithMapPage() {
   const loadListings = async () => {
     try {
       setLoading(true);
-      const results = await getMockListings();
+      const searchFilters: SearchFilters = {
+        city: 'Cleveland',
+        state: 'OH',
+        radius: 10,
+        housingTypes: ['senior_living', 'assisted_living']
+      };
+      const results = await performSearch(searchFilters);
       setListings(results);
     } catch (error) {
       console.error('Failed to load listings:', error);

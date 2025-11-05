@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { loadGoogleMapsAPI } from '@/lib/google-maps/loader';
-import { performSearch, getMockListings, type SearchFilters } from '@/lib/actions/search';
+import { performSearch, type SearchFilters } from '@/lib/actions/search';
 import type { SearchResult } from '@/lib/google-maps/search';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { FilterSidebar, type FilterState, defaultFilters } from '@/components/search/FilterSidebar';
@@ -156,15 +156,7 @@ export default function SearchPage() {
         housingTypes: filters.propertyTypes.length > 0 ? filters.propertyTypes : ['senior_living', 'assisted_living']
       };
 
-      // Try real search first, fallback to mock data
-      let results: SearchResult[] = [];
-      try {
-        results = await performSearch(searchFilters);
-      } catch (error) {
-        console.error('Real search failed, using mock data:', error);
-        results = await getMockListings();
-      }
-
+      const results = await performSearch(searchFilters);
       setPlaces(results);
       updateMapMarkers(results);
     } catch (error) {
