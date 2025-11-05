@@ -1,6 +1,6 @@
 # 🏙️ The Apt Finder — Full Architecture Specification
 
-**Magazine-Style Application Flow & Developer Schema**
+## Magazine-Style Application Flow & Developer Schema
 
 ---
 
@@ -9,7 +9,7 @@
 Each feature appears as a page in a digital magazine.
 Users swipe or click to turn pages, with smooth horizontal transitions.
 
-```
+```text
 [ COVER ]
     ↓ (swipe)
 [ LETTER FROM EDITOR ]
@@ -39,7 +39,7 @@ All pages use the shared `MagazineLayout.tsx` wrapper and `net-yorker-theme.css`
 
 ## 🧱 COMPONENT HIERARCHY DIAGRAM
 
-```
+```text
 App Entry (Next.js)
 └── MagazineLayout.tsx  ← shared wrapper
     ├── Navbar.tsx       ← persistent nav, page indicator
@@ -220,7 +220,7 @@ app:
 
 ## 🧩 DATA FLOW OVERVIEW
 
-```
+```text
 User Interaction (Navbar / Page turn)
         ↓
 Framer Motion Controller (Animation)
@@ -244,7 +244,7 @@ All features inherit typography, colors, and "paper" layout automatically.
   - One embedded cartoon per article
 - Cartoons are `.svg` line drawings, saved under:
 
-```
+```text
 /app/articles/cartoons/
 ├── article-name.svg
 ├── apartment-life.svg

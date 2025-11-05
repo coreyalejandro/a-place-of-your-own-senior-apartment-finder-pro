@@ -1,12 +1,15 @@
 # The Apt Finder — Full Architecture Specification
 
 ## Overview
+
 Magazine-style Next.js app with each feature presented as a turnable page. Uses `MagazineLayout.tsx`, `FramerMotion`, and a unified `net-yorker-theme.css`.
 
 ## User Flow
+
 COVER → LETTER → CONTENTS → APARTMENTS → REALTORS → FAVORITES → BOOKMARKS → ARTICLES → CARTOONS → END
 
 ## Component Hierarchy
+
 App Entry (Next.js)
  └── MagazineLayout.tsx
       ├── Navbar.tsx
@@ -25,6 +28,7 @@ App Entry (Next.js)
  └── net-yorker-theme.css
 
 ## Route Map
+
 / → cover
 /letter → editor letter
 /contents → table of contents
@@ -37,6 +41,7 @@ App Entry (Next.js)
 /end → closing spread
 
 ## YAML Architecture Spec
+
 app:
   name: "The Apt Finder"
   layout: "MagazineLayout.tsx"

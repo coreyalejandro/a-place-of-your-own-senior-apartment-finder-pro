@@ -80,7 +80,7 @@ class HousingCoachOrchestrator:
         """
 
         # Extract budget information from conversation
-        context = self._build_context(history)
+        # Note: context available via self._build_context(history) if needed
 
         response = {
             "type": "budget_analysis",
