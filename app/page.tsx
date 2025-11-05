@@ -2,7 +2,18 @@
 
 export default function Home() {
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100vh', backgroundColor: '#F5EBD1' }}>
+    <div 
+      style={{ 
+        position: 'relative', 
+        width: '100%', 
+        height: '100vh',
+        backgroundImage: 'url(/cover-collage.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#F5EBD1'
+      }}
+    >
       {/* Masthead */}
       <header 
         className="masthead-new-yorker"
@@ -70,20 +81,6 @@ export default function Home() {
           FREE
         </div>
       </header>
-
-      {/* Cover Image */}
-      <img 
-        src="/cover-collage.png" 
-        alt="The Apt Finder Magazine Cover"
-        style={{
-          width: '100%',
-          height: '100vh',
-          objectFit: 'contain',
-          backgroundColor: '#F5EBD1',
-          display: 'block',
-          paddingTop: '6rem'
-        }}
-      />
     </div>
   );
 }
