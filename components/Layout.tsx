@@ -1,14 +1,6 @@
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="magazine-wrapper">
-      <header className="masthead">
-        <div className="title-container">
-          <span className="title-line-1">THE</span>
-          <span className="title-line-2">APT FINDER</span>
-        </div>
-        <h2 className="subtitle">A PLACE OF YOUR OWN</h2>
-      </header>
-
       <main>{children}</main>
 
       <footer className="footer">

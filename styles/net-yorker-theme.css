@@ -130,3 +130,28 @@ main > div {
   text-transform: none;
   font-size: 0.85rem;
 }
+
+/* Two-column text layout */
+.two-column-text {
+  column-count: 2;
+  column-gap: 3rem;
+  column-rule: none;
+}
+
+@media (max-width: 768px) {
+  .two-column-text {
+    column-count: 1;
+  }
+}
+
+/* Drop cap for first paragraph */
+.drop-cap::first-letter {
+  float: left;
+  font-size: 4.5rem;
+  line-height: 0.8;
+  padding-right: 0.5rem;
+  padding-top: 0.1rem;
+  font-weight: 700;
+  font-family: var(--font-display);
+  color: var(--color-text);
+}

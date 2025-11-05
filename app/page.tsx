@@ -1,20 +1,26 @@
 'use client';
 
+import { MagazineNavigation } from '@/components/MagazineNavigation';
+import { MAGAZINE_PAGES } from '@/components/MagazineLayout';
+
 export default function Home() {
+  const currentPageIndex = 0; // Cover page is first
+  const currentPage = MAGAZINE_PAGES[currentPageIndex];
+  const totalPages = MAGAZINE_PAGES.length;
   return (
     <div 
       style={{ 
         position: 'relative', 
         width: '100%', 
-        height: '100vh',
-        backgroundImage: 'url(/cover-collage.png)',
-        backgroundSize: 'cover',
+        height: '200vh',
+        backgroundImage: 'url(/image.png)',
+        backgroundSize: '110%',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundColor: '#F5EBD1'
       }}
     >
-      {/* Masthead */}
+      {/* Original Masthead */}
       <header 
         className="masthead-new-yorker"
         style={{
@@ -32,11 +38,12 @@ export default function Home() {
       >
         {/* Issue Date - Top Left */}
         <div style={{
-          fontSize: '0.875rem',
-          fontWeight: 400,
+          fontSize: '1.5rem',
+          fontWeight: 600,
           letterSpacing: '0.1em',
-          color: '#1C1C1C',
-          textTransform: 'uppercase'
+          color: '#000000',
+          textTransform: 'uppercase',
+          textShadow: '0 2px 4px rgba(255, 255, 255, 1), 0 0 8px rgba(255, 255, 255, 0.8)'
         }}>
           FALL 2025
         </div>
@@ -49,22 +56,24 @@ export default function Home() {
           textAlign: 'center'
         }}>
           <div style={{
-            fontSize: '1.5rem',
-            fontWeight: 400,
+            fontSize: '2.5rem',
+            fontWeight: 600,
             letterSpacing: '0.15em',
-            color: '#1C1C1C',
-            marginBottom: '0.1rem',
-            lineHeight: 1.2
+            color: '#000000',
+            marginBottom: '0.2rem',
+            lineHeight: 1.2,
+            textShadow: '0 2px 4px rgba(255, 255, 255, 1), 0 0 8px rgba(255, 255, 255, 0.8)'
           }}>
             THE
           </div>
           <div style={{
-            fontSize: '4rem',
-            fontWeight: 700,
+            fontSize: '6rem',
+            fontWeight: 900,
             letterSpacing: '0.02em',
-            color: '#1C1C1C',
+            color: '#000000',
             lineHeight: 1,
-            whiteSpace: 'nowrap'
+            whiteSpace: 'nowrap',
+            textShadow: '0 2px 4px rgba(255, 255, 255, 1), 0 0 8px rgba(255, 255, 255, 0.8)'
           }}>
             APT FINDER
           </div>
@@ -72,15 +81,25 @@ export default function Home() {
 
         {/* Price - Top Right */}
         <div style={{
-          fontSize: '0.875rem',
-          fontWeight: 400,
+          fontSize: '1.5rem',
+          fontWeight: 600,
           letterSpacing: '0.1em',
-          color: '#1C1C1C',
-          textTransform: 'uppercase'
+          color: '#000000',
+          textTransform: 'uppercase',
+          textShadow: '0 2px 4px rgba(255, 255, 255, 1), 0 0 8px rgba(255, 255, 255, 0.8)'
         }}>
           FREE
         </div>
       </header>
+
+      {/* Magazine Navigation */}
+      <MagazineNavigation
+        currentPage={currentPageIndex + 1}
+        totalPages={totalPages}
+        pageTitle={currentPage?.shortTitle || 'Cover'}
+        transparent={true}
+        hideCenterContent={true}
+      />
     </div>
   );
 }

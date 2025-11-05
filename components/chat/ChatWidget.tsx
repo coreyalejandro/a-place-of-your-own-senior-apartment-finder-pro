@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { chatWithAI } from '@/lib/actions/chat';
 
@@ -12,6 +13,8 @@ interface Message {
 }
 
 export function ChatWidget() {
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
@@ -124,9 +127,15 @@ export function ChatWidget() {
     localStorage?.removeItem('chat-messages');
   };
 
+  // Position classes based on whether we're on homepage
+  // On homepage: position in bottom right corner
+  const positionClasses = isHomePage 
+    ? 'fixed bottom-6 right-6' 
+    : 'fixed bottom-6 right-6';
+
   if (!isOpen) {
     return (
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className={`${positionClasses} z-50`}>
         <Button
           onClick={() => setIsOpen(true)}
           className="rounded-full w-16 h-16 shadow-lg hover:shadow-xl transition-shadow"
@@ -139,7 +148,7 @@ export function ChatWidget() {
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className={`${positionClasses} z-50`}>
       <div className="bg-white border-2 border-[#D4C4B0] rounded-lg shadow-xl w-96 max-h-[600px] flex flex-col">
         {/* Header */}
         <div className="bg-[#8B7355] text-[#FAF8F5] p-4 rounded-t-lg flex justify-between items-center">

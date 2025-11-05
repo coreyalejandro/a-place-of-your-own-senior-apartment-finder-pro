@@ -39,7 +39,7 @@ const articles = [
 export default function ArticlesPage() {
   return (
     <div className="magazine-page min-h-screen pt-24">
-      <div className="max-w-5xl mx-auto px-8">
+      <div className="max-w-4xl mx-auto px-8 lg:px-16">
         {/* Header */}
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-4 mb-6">

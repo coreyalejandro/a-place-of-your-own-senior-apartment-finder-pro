@@ -26,7 +26,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     <div className="magazine-page min-h-screen pt-24">
       <SkipLinks />
 
-      <main className="max-w-4xl mx-auto px-8" role="main" id="main-content">
+      <main className="max-w-4xl mx-auto px-8 lg:px-16" role="main" id="main-content">
         <div className="mb-6">
           <Link href="/contents">
             <Button variant="outline">

@@ -1,9 +1,9 @@
 export default function LetterPage() {
   return (
     <div className="magazine-page min-h-screen pt-24">
-      <div className="max-w-5xl mx-auto px-8">
+      <div className="max-w-4xl mx-auto px-8 lg:px-16">
         {/* Gradient Header */}
-        <div className="bg-gradient-to-b from-[#D6B57C] to-[#F5EBD1] -mx-8 px-8 pt-12 pb-8 mb-12">
+        <div className="bg-gradient-to-b from-[#D6B57C] to-[#F5EBD1] -mx-8 lg:-mx-16 px-8 lg:px-16 pt-12 pb-8 mb-12">
           <h1 className="font-display text-5xl md:text-6xl text-[#1C1C1C] text-center mb-4">
             Letter from the Editor
           </h1>

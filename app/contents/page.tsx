@@ -45,7 +45,7 @@ const tableOfContents = [
 export default function ContentsPage() {
   return (
     <div className="magazine-page min-h-screen pt-24">
-      <div className="max-w-4xl mx-auto px-8">
+      <div className="max-w-4xl mx-auto px-8 lg:px-16">
         {/* Title */}
         <div className="text-center mb-16">
           <h1 className="font-display text-5xl md:text-6xl text-[#1C1C1C] mb-4 uppercase tracking-wide">
