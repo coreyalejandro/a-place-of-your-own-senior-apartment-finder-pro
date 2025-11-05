@@ -157,6 +157,17 @@ export default function SearchPage() {
       };
 
       const results = await performSearch(searchFilters);
+      
+      // Debug: Log photo URLs
+      if (results.length > 0) {
+        console.log('Search results with photos:', results.map(r => ({
+          name: r.displayName,
+          hasPhotoUrl: !!r.photoUrl,
+          photoUrl: r.photoUrl,
+          photosCount: r.photos?.length || 0
+        })));
+      }
+      
       setPlaces(results);
       updateMapMarkers(results);
     } catch (error) {
@@ -352,7 +363,7 @@ export default function SearchPage() {
                             address: place.formattedAddress,
                             rating: place.rating,
                             price: place.priceLevel ? `$${place.priceLevel * 500}-${place.priceLevel * 800}` : 'Call for pricing',
-                            photoUrl: undefined
+                            photoUrl: place.photoUrl
                           }}
                           onClick={handleViewDetails}
                         />

@@ -1,7 +1,5 @@
 'use client';
 
-import Image from 'next/image';
-
 interface Listing {
   id: string;
   name: string;
@@ -35,13 +33,17 @@ export function ListingCard({
       aria-label={`${listing.name} listing`}
     >
       {listing.photoUrl && (
-        <div className="relative aspect-video mb-4 rounded-md overflow-hidden">
-          <Image
+        <div className="relative aspect-video mb-4 rounded-md overflow-hidden bg-[#D3C5A0]">
+          {/* Use regular img tag - Next.js Image optimization doesn't work with Google Places API media URLs */}
+          <img
             src={listing.photoUrl}
             alt={`${listing.name} exterior`}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              console.error('Image failed to load:', listing.photoUrl);
+              const target = e.currentTarget as HTMLImageElement;
+              target.style.display = 'none';
+            }}
           />
           {onBookmarkToggle && (
             <button
